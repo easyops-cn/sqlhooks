@@ -71,7 +71,7 @@ func (drv *Driver) Open(name string) (driver.Conn, error) {
 
 // Conn implements a database/sql.driver.Conn
 type Conn struct {
-	Conn  driver.Conn
+	driver.Conn
 	hooks Hooks
 }
 
