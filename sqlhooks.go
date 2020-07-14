@@ -71,8 +71,16 @@ func (drv *Driver) Open(name string) (driver.Conn, error) {
 
 // Conn implements a database/sql.driver.Conn
 type Conn struct {
-	driver.Conn
+	Conn  driver.Conn
 	hooks Hooks
+}
+
+func (conn *Conn) CheckNamedValue(nv *driver.NamedValue) error {
+    nvc, ok := conn.Conn.(driver.NamedValueChecker)
+    if ok {
+    	return nvc.CheckNamedValue(nv)
+	}
+    panic("should have method CheckNamedValue")
 }
 
 func (conn *Conn) PrepareContext(ctx context.Context, query string) (driver.Stmt, error) {
